@@ -1,0 +1,60 @@
+var Papa;
+var NewDad; 
+
+var imageSize = 60;
+var imageArray = [];
+var imageNum = 100;
+
+function start(){
+     drawNewDad();
+     dadTheAccountant();
+     mouseClickMethod(checkPapa);
+}
+function drawNewDad(){
+    NewDad = new WebImage("https://codehs.com/uploads/faf15cff6473ba2959b41953eff790c6");
+    NewDad.setSize(imageSize,imageSize);
+    var x2 = Randomizer.nextInt(0, getWidth()-NewDad.width);
+    var y2 = Randomizer.nextInt(0, getHeight()-NewDad.height);
+    NewDad.setPosition(x2,y2);
+    add(NewDad);
+}
+
+function dadTheAccountant(){
+    for (var i =0; i < imageNum; i++){
+    Papa = new WebImage("https://codehs.com/uploads/984e51a72413dde08970d12b1ad88cf6");
+    Papa.setSize(imageSize, imageSize);
+    var x = Randomizer.nextInt(0,getWidth()-imageSize);
+    var y = Randomizer.nextInt(0,getHeight()-imageSize);
+    Papa.setPosition(x,y);
+    imageArray.push(Papa);
+    add(imageArray[i]);
+    }
+}
+
+function checkPapa(e){
+    var mX = e.getX();
+    var mY = e.getY();
+    var object = getElementAt(e.getX(),e.getY());
+    //println(object);
+    var NewDadLBX = NewDad.getX(); //finds the left edge
+    var NewDadRBX = NewDad.getX()+NewDad.width; //finds the right edge
+    var NewDadTOPY = NewDad.getY(); // finds the top edge
+    var NewDadBOTY = NewDad.getY()+NewDad.height; //finds the bottom edge
+    
+    if ((mX>NewDadLBX && mX < NewDadRBX) && (mY>NewDadTOPY && mY<NewDadBOTY) && (object == NewDad)){
+    println("FOUND New Dad");
+    remove(NewDad);
+}else{
+    for(var i = 0; i<imageArray.length; i++){
+    var lbx = imageArray[i].getX();
+    var rbx = imageArray[i].getX()+imageArray[i].width;
+    var topy = imageArray[i].getY();
+    var boty = imageArray[i].getY()+imageArray[i].height;
+    
+    if((mX>lbx && mX<rbx) && (mY>topy && mY<boty)){
+    println("Not New Dad");
+    remove(imageArray[i]);
+     }
+    }
+   }
+ }
